@@ -186,7 +186,7 @@ def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     model = DeepPhy(hidden_size, train_dataset.embeddings, kernal_size, num_layers).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=1e-4)
     # Training
-    epochs = 200
+    epochs = 500
     patience = 5
     best_val_loss = float("inf")
     counter = 0
@@ -257,7 +257,7 @@ if __name__ == '__main__':
     # X_eval = X_eval[:,hac_index]
 
     train_losses, val_losses, val_r2s = train(X_train, Y_train, X_eval, Y_eval, phy_embedding)
-    plot_age(train_losses, val_losses, val_r2s, title='The DeepPhy age prediction result: train and test Loss/R2 (max pooling)') # The (DeepPhy)-MLP age prediction result: train and test Loss/R2 (max pooling)
+    plot_age(train_losses, val_losses, val_r2s, title='The DeepPhy model prediction on age dataset: train and test Loss/R2')
 
 
     # 绘制长度分布图
