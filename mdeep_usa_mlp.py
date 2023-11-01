@@ -83,14 +83,14 @@ def train(X_train, Y_train, X_eval, Y_eval):
     X_val_tensor = torch.from_numpy(X_eval).float()
     y_val_tensor = torch.from_numpy(Y_eval).float().view(-1, 1)
     # Create DataLoader for training and validation data
-    batch_size = 16
+    batch_size = 32
     train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_dataset = TensorDataset(X_val_tensor, y_val_tensor)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     # Training
-    epochs = 100
+    epochs = 500
     patience = 5
     best_val_loss = float("inf")
     counter = 0
@@ -154,4 +154,4 @@ if __name__ == '__main__':
     Y_train = np.load('/home/wangbin/DeepPhy/data/data_mdeep/usa/Y_train.npy')
     Y_eval = np.load('/home/wangbin/DeepPhy/data/data_mdeep/usa/Y_eval.npy')
     train_losses, val_losses, val_r2s = train(X_train, Y_train, X_eval, Y_eval)
-    plot_age(train_losses, val_losses, val_r2s)
+    plot_age(train_losses, val_losses, val_r2s, title='The MLP model prediction on age dataset: train and test Loss/R2')
