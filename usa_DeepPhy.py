@@ -8,8 +8,8 @@ import math
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from scripts.pre_dataset import set_seed,reducer, inverse_C, DeepPhyDataset
-from scripts.model import DeepPhy_usa
+from deepphylo.pre_dataset import set_seed,reducer, inverse_C, DeepPhyDataset
+from deepphylo.model import DeepPhy_usa
 import argparse
 
 
