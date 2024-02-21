@@ -7,9 +7,9 @@ import torch.nn as nn
 import torch.optim as optim
 from sklearn.metrics import r2_score
 from torch.utils.data import DataLoader, TensorDataset
-from scripts.pre_dataset import set_seed, hac
-from scripts.plot import plot_age
-from scripts.model import MDeep_usa
+from deepphylo.pre_dataset import set_seed, hac
+from deepphylo.plot import plot_age
+from deepphylo.model import MDeep_usa
 import argparse
 
 def train(X_train, Y_train, X_eval, Y_eval):
