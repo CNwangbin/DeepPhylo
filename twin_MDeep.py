@@ -6,13 +6,11 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader,TensorDataset
-from scripts.pre_dataset import set_seed, hac
-from scripts.plot import plot_ss_curve, plot_pr_curve, plot_training
-from scripts.evaluate import compute_metrics, select_best_epoch
-from scripts.model import MDeep_twin
+from deepphylo.pre_dataset import set_seed, hac
+from deepphylo.plot import plot_ss_curve, plot_pr_curve, plot_training
+from deepphylo.evaluate import compute_metrics, select_best_epoch
+from deepphylo.model import MDeep_twin
 import argparse
-
-
 
 
 def train(X_train, Y_train, X_eval, Y_eval):
