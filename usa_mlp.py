@@ -115,6 +115,6 @@ if __name__ == '__main__':
     X_train = np.load('data_DeepPhylo/usa/X_train.npy')
     X_eval = np.load('data_DeepPhylo/usa/X_eval.npy')
     Y_train = np.load('data_DeepPhylo/usa/Y_train.npy')
-    Y_eval = np.load('data_DeepPhylop/usa/Y_eval.npy')
+    Y_eval = np.load('data_DeepPhylo/usa/Y_eval.npy')
     train_losses, val_losses, val_r2s = train(X_train, Y_train, X_eval, Y_eval)
     plot_age(train_losses, val_losses, val_r2s, title='The MLP model prediction on age dataset: train and test Loss/R2')
