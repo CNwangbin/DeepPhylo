@@ -9,9 +9,9 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import r2_score
 from torch.utils.data import DataLoader
-from scripts.pre_dataset import set_seed
-from scripts.plot import plot_age
-from scripts.model import MLP_usa
+from deepphylo.pre_dataset import set_seed
+from deepphylo.plot import plot_age
+from deepphylo.model import MLP_usa
 
 
 def train(X_train, Y_train, X_eval, Y_eval):
