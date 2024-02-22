@@ -9,22 +9,36 @@ from torch.utils.data import DataLoader
 from deepphylo.pre_dataset import set_seed,reducer, inverse_C, DeepPhyDataset
 from deepphylo.plot import plot_ss_curve, plot_pr_curve
 from deepphylo.evaluate import compute_metrics, select_best_epoch
-from deepphylo.model import DeepPhy_twin
+from deepphylo.model import DeepPhylo_binary, DeepPhy
 import argparse
 
 
 def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     hidden_size = args.hidden_size
-    kernal_size = args.kernal_size
+    kernel_size_conv = args.kernel_size_conv
     criterion = nn.MSELoss()
     batch_size = args.batch_size
+    kernel_size_pool = args.kernel_size_pool
+    if args.activation == 'relu':
+        activation = nn.ReLU()
+    elif args.activation == 'sigmoid':
+        activation = nn.Sigmoid()
+    elif args.activation == 'tanh':
+        activation = nn.Tanh()
+    else:
+        raise ValueError("Invalid activation function")
     # Create DataLoader for training and validation data
     train_dataset = DeepPhyDataset(phy_embedding, X_train, Y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=train_dataset.custom_collate_fn)
     val_dataset = DeepPhyDataset(phy_embedding, X_eval, Y_eval)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=train_dataset.custom_collate_fn)
-    model = DeepPhy_twin(hidden_size, train_dataset.embeddings, kernal_size).to(device)
+    if args.model_type == 'unsupervised':
+        model = DeepPhy(hidden_size, train_dataset.embeddings, kernel_size_conv, kernel_size_pool, activation=activation).to(device)
+    elif args.model_type == 'deepphylo_binary':
+        model = DeepPhylo_binary(hidden_size, train_dataset.embeddings, kernel_size_conv, kernel_size_pool, activation=activation).to(device)
+    else:
+        raise ValueError("Invalid model type")
     optimizer = optim.AdamW(model.parameters(), lr=args.lr)
     # Training
     epochs = args.epochs
@@ -112,11 +126,11 @@ if __name__ == '__main__':
                         default=64,
                         type=int,
                         help='Hidden_size which using in pca dimensionality reduction operation')
-    parser.add_argument('-k',
-                        '--kernal_size',
+    parser.add_argument('-kec',
+                        '--kernel_size_conv',
                         default=7,
                         type=int,
-                        help='Kerna;_size which applied to convolutional layers')
+                        help='Kernal_size which applied to convolutional layers')
     parser.add_argument('-l',
                         '--lr',
                         default=1e-4,
@@ -127,6 +141,22 @@ if __name__ == '__main__':
                         default=64,
                         type=int,
                         help='Batchsize size when encoding protein embedding with backbone')
+    parser.add_argument('-kep',
+                        '--kernel_size_pool',
+                        default=4,
+                        type=int,
+                        help='Kernal_size which applied to pooling layers')
+    parser.add_argument('-act',
+                        '--activation',
+                        default='relu',
+                        choices=['relu', 'sigmoid', 'tanh'],
+                        help='Activation function for encoding protein embedding with backbone (default: relu)')
+    parser.add_argument('--model-type', 
+                        type=str, 
+                        choices=['unsupervised', 'deepphylo_binary'], 
+                        default='deepphylo', 
+                        help='Type of model to use')
+
     args = parser.parse_args()
     X_train = np.load('data_DeepPhylo/twin/X_train.npy')
     X_eval = np.load('data_DeepPhylo/twin/X_eval.npy')
