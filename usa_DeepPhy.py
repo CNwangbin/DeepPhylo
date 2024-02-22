@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from deepphylo.pre_dataset import set_seed,reducer, inverse_C, DeepPhyDataset
-from deepphylo.model import DeepPhy_usa
+from deepphylo.model import DeepPhylo_continuous
 import argparse
 
 
@@ -19,16 +19,25 @@ def conv_len_cal(L_in, kernel_size, stride, padding=0):
 def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     hidden_size = args.hidden_size
-    kernal_size = args.kernal_size
+    kernal_size_conv = args.kernal_size_conv
     num_layers = 1
     criterion = nn.MSELoss()
     batch_size = args.batchsize
+    kernal_size_pool = args.kernal_size_pool
+    if args.activation == 'relu':
+        activation = nn.ReLU()
+    elif args.activation == 'sigmoid':
+        activation = nn.Sigmoid()
+    elif args.activation == 'tanh':
+        activation = nn.Tanh()
+    else:
+        raise ValueError("Invalid activation function")
     # Create DataLoader for training and validation data
     train_dataset = DeepPhyDataset(phy_embedding, X_train, Y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=train_dataset.custom_collate_fn)
     val_dataset = DeepPhyDataset(phy_embedding, X_eval, Y_eval)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=train_dataset.custom_collate_fn)
-    model = DeepPhy_usa(hidden_size, train_dataset.embeddings, kernal_size, num_layers).to(device)
+    model = DeepPhylo_continuous(hidden_size, train_dataset.embeddings,kernal_size_conv, kernal_size_pool, activation=activation).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr)
     # Training
     epochs = args.epochs
@@ -102,8 +111,8 @@ if __name__ == '__main__':
                         default=64,
                         type=int,
                         help='Hidden_size which using in pca dimensionality reduction operation')
-    parser.add_argument('-k',
-                        '--kernal_size',
+    parser.add_argument('-kec',
+                        '--kernal_size_conv',
                         default=7,
                         type=int,
                         help='Kerna;_size which applied to convolutional layers')
@@ -117,6 +126,16 @@ if __name__ == '__main__':
                         default=64,
                         type=int,
                         help='Batchsize size when encoding protein embedding with backbone')
+    parser.add_argument('-kep',
+                        '--kernal_size_pool',
+                        default=4,
+                        type=int,
+                        help='Kernal_size which applied to pooling layers')
+    parser.add_argument('-act',
+                        '--activation',
+                        default='relu',
+                        choices=['relu', 'sigmoid', 'tanh'],
+                        help='Activation function for encoding protein embedding with backbone (default: relu)')
     args = parser.parse_args()
     X_train = np.load('data_DeepPhylo/usa/X_train.npy')
     X_eval = np.load('data_DeepPhylo/usa/X_eval.npy')
