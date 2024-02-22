@@ -6,7 +6,7 @@ import pandas as pd
 from typing import Union
 from scipy.spatial import distance
 from scipy.linalg import svd
-from optspace_and_base import OptSpace, _BaseImpute
+from deepphylo.optspace_and_base import OptSpace, _BaseImpute
 
 
 import numpy as np
