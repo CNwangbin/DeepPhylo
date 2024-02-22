@@ -4,10 +4,10 @@ import numpy as np
 import qiime2 as q2
 from skbio import TreeNode
 from qiime2.plugins.phylogeny.methods import filter_table
-from rpca import rpca_table,rclr
-from preprocessing import fast_unifrac,matrix_rclr
+from deepphylo.rpca import rpca_table,rclr
+from deepphylo.preprocessing import fast_unifrac,matrix_rclr
 from collections import Counter
-from plot import plot_2d,  normalize, reducer, get_evol_feature
+from deepphylo.plot import plot_2d,  normalize, reducer, get_evol_feature
 import matplotlib.pyplot as plt
 
 def import_and_process_data(table_path, metadata_path, tree_path):
@@ -49,9 +49,8 @@ def import_and_process_data(table_path, metadata_path, tree_path):
     table = q2.Artifact.import_data('FeatureTable[Frequency]', bt)
         
     return table, bt, metadata, tree
-def RPCA_with_abundance(bt,):
-    table_matrix = bt.to_dataframe().T
-    table_matrix_rclr = rclr(table_matrix)
+
+def RPCA_with_abundance(bt, table_matrix_rclr):
     df_table_abundance_rclr = pd.DataFrame(table_matrix_rclr, index=list(bt.ids(axis='sample')), columns=list(bt.ids(axis='observation')))
     labels_str = [sid.split('.')[1] for sid in df_table_abundance_rclr.index]
     str_dict = {'Che':0, 'Iqu':1, 'Man':2, 'Manaus':2}
