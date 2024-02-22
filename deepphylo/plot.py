@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import umap.umap_ as umap
+# import umap.umap_ as umap
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 import pandas as pd
