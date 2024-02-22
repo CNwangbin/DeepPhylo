@@ -95,19 +95,3 @@ def RPCA_PCA(bt, tntree, table_matrix_rclr,df_table_abundance_rclr):
     sample_merged_feature = np.concatenate([sample_abundance_feature_20d_normalized, sample_evol_feature_20d_normalized], axis=1)
     sample_merged_feature_2d = reducer(sample_merged_feature, method='pca', n_components=2)
     return sample_evol_feature_20d_normalized , sample_merged_feature_2d
-
-if __name__ == '__main__':
-    table_path = 'data_phyloRPCA/urbmerged.biom'
-    metadata_path = 'data_phyloRPCA/10333_20190808-130957.txt'
-    tree_path = 'data_phyloRPCA/tree.qza'
-    taxonomy = q2.Artifact.load('data_phyloRPCA/taxonomy.qza')    
-    table, bt, metadata, tree = import_and_process_data(table_path, metadata_path, tree_path)
-    table_matrix_rclr, df_table_abundance_rclr, sample_loading_abundance_3d, colors = RPCA_with_abundance(bt)
-    tntree, sample_loading_phyloRPCA_3d = Phylo_RPCA(tree,bt)
-    sample_evol_feature_20d_normalized,sample_merged_feature_2d = RPCA_PCA(bt, tntree, table_matrix_rclr,df_table_abundance_rclr)
-    plot_2d(sample_loading_abundance_3d,colors)
-    plt.savefig('plot1.png')
-    plot_2d(sample_evol_feature_20d_normalized,colors)
-    plt.savefig('plot2.png')
-    plot_2d(sample_merged_feature_2d,colors)
-    plt.savefig('plot3.png')
