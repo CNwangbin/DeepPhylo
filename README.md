@@ -40,12 +40,12 @@ python twin_DeepPhy.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act rel
 
 - to train and test a model using DeepPhylo in age regression run sh: 
 ```bash
-python usa_DeepPhy.py --epochs 200 -hs 64 -kec 7 -bs 64 -kep 4 --lr 1e-4 -act relu
+python usa_DeepPhy.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu
 ```
 
 - to train and test a model using unsupervised method in IBD data run sh: 
 ```bash
-python twin_DeepPhy.py --epochs 200 --hidden_size 64 --lr 1e-4 -bs 64 -hs 64 -kec 7 --model-type unsupervised
+python twin_DeepPhy.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 --model-type unsupervised
 ```
 * mystem_rpca.ipynb - Jupyter notebook to run unsupervised method on microbiome datasets
 ## Citation
