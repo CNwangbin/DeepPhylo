@@ -1,4 +1,4 @@
-# DeepPhy: A phylogeny-aware machine learning approach to enhance predictive accuracy in human microbiome data analysis
+# DeepPhylo: A phylogeny-aware machine learning approach to enhance predictive accuracy in human microbiome data analysis
 
  DeepPhylo, a method that employs phylogeny-aware amplicon embeddings to integrate abundance and phylogenetic information, thereby improving both the unsupervised discriminatory power and supervised predictive accuracy of microbiome data analysis. 
 
