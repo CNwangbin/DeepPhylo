@@ -3,6 +3,7 @@ import numpy as np
 import umap.umap_ as umap
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
+import pandas as pd
 def plot_training(train_losses, val_losses, metrics, title='The twin prediction result: train and test Loss/metrics'):
     def plot_metric(name, metric_values):
         max_metric = max(metric_values)
@@ -91,7 +92,7 @@ def plot_age(train_losses, val_losses, val_r2s, title='The simple MLP baseline a
     plt.legend(frameon=False)
     plt.show()
 
-def plot_2d(sample_loading, proportion_explained=None):
+def plot_2d(sample_loading,colors, proportion_explained=None):
     fig, ax = plt.subplots()
     if isinstance(sample_loading, pd.DataFrame):
         scatter = ax.scatter(
