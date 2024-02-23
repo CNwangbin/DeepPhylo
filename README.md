@@ -41,7 +41,7 @@ python DeepPhylo_binary.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act
 
 - to train and test a model using DeepPhylo in age prediction run sh: 
 ```bash
-python DeepPhylo_continous.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu
+python DeepPhylo_continuous.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu
 ```
 
 - to train and test a model using unsupervised method in IBD microbiome-based diagnosis run sh: 
