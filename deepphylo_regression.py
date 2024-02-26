@@ -13,9 +13,6 @@ from deepphylo.model import DeepPhylo_regression
 import argparse
 
 
-def conv_len_cal(L_in, kernel_size, stride, padding=0):
-    return math.floor((L_in + 2 * padding - (kernel_size - 1) - 1) / stride + 1)
-
 def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     hidden_size = args.hidden_size
