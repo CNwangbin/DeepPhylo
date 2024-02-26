@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from deepphylo.pre_dataset import set_seed,reducer, inverse_C, DeepPhyDataset
-from deepphylo.model import DeepPhylo_continuous
+from deepphylo.model import DeepPhylo_regression
 import argparse
 
 
@@ -37,7 +37,7 @@ def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=train_dataset.custom_collate_fn)
     val_dataset = DeepPhyDataset(phy_embedding, X_eval, Y_eval)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=train_dataset.custom_collate_fn)
-    model = DeepPhylo_continuous(hidden_size, train_dataset.embeddings,kernal_size_conv, kernal_size_pool, activation=activation).to(device)
+    model = DeepPhylo_regression(hidden_size, train_dataset.embeddings,kernal_size_conv, kernal_size_pool, activation=activation).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr)
     # Training
     epochs = args.epochs
@@ -137,11 +137,11 @@ if __name__ == '__main__':
                         choices=['relu', 'sigmoid', 'tanh'],
                         help='Activation function for encoding protein embedding with backbone (default: relu)')
     args = parser.parse_args()
-    X_train = np.load('data_DeepPhylo/usa/X_train.npy')
-    X_eval = np.load('data_DeepPhylo/usa/X_eval.npy')
-    Y_train = np.load('data_DeepPhylo/usa/Y_train.npy')
-    Y_eval = np.load('data_DeepPhylo/usa/Y_eval.npy')
-    C = np.load('data_DeepPhylo/usa/c.npy')
+    X_train = np.load('data/age_regression/X_train.npy')
+    X_eval = np.load('data/age_regression/X_eval.npy')
+    Y_train = np.load('data/age_regression/Y_train.npy')
+    Y_eval = np.load('data/age_regression/Y_eval.npy')
+    C = np.load('data/age_regression/c.npy')
     D = inverse_C(C)
     phy_embedding = reducer(C, 'pca', args.hidden_size, whiten=True)
 
