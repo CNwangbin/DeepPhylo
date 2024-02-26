@@ -163,7 +163,6 @@ if __name__ == '__main__':
     Y_train = np.load('data_DeepPhylo/twin/Y_train.npy')
     Y_eval = np.load('data_DeepPhylo/twin/Y_eval.npy')
     C = np.load('data_DeepPhylo/twin/c.npy')
-
     D = inverse_C(C)
     phy_embedding = reducer(C, 'pca', args.hidden_size, whiten=True)
     train_losses, val_losses, metrics_dict = train(X_train, Y_train, X_eval, Y_eval, phy_embedding)
