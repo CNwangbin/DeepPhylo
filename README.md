@@ -36,17 +36,17 @@ The scripts here are using to run the model.
 
 - to train and test a model using DeepPhylo in gender prediction run sh: 
 ```bash
-python DeepPhylo_binary.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu --model-type deepphylo_binary
+python deepphylo_classification.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu --model-type deepphylo_classification
 ```
 
 - to train and test a model using DeepPhylo in age prediction run sh: 
 ```bash
-python DeepPhylo_continuous.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu
+python deepphylo_regression.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 -act relu
 ```
 
 - to train and test a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
 ```bash
-python DeepPhylo_binary.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 --model-type unsupervised
+python deepphylo_classification.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 --model-type unsupervised
 ```
 
 * mystem_rpca.ipynb - Jupyter notebook to run unsupervised method on skin microbiome samples.
