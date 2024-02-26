@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from deepphylo.pre_dataset import set_seed,reducer, inverse_C, DeepPhyDataset
 from deepphylo.plot import plot_ss_curve, plot_pr_curve
 from deepphylo.evaluate import compute_metrics, select_best_epoch
-from deepphylo.model import DeepPhylo_binary, DeepPhy
+from deepphylo.model import DeepPhylo_classification
 import argparse
 
 
@@ -33,12 +33,7 @@ def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=train_dataset.custom_collate_fn)
     val_dataset = DeepPhyDataset(phy_embedding, X_eval, Y_eval)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=train_dataset.custom_collate_fn)
-    if args.model_type == 'unsupervised':
-        model = DeepPhy(hidden_size, train_dataset.embeddings, kernel_size_conv, kernel_size_pool, activation=activation).to(device)
-    elif args.model_type == 'deepphylo_binary':
-        model = DeepPhylo_binary(hidden_size, train_dataset.embeddings, kernel_size_conv, kernel_size_pool, activation=activation).to(device)
-    else:
-        raise ValueError("Invalid model type")
+    model = DeepPhylo_classification(hidden_size, train_dataset.embeddings, kernel_size_conv, kernel_size_pool, activation=activation).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr)
     # Training
     epochs = args.epochs
@@ -151,18 +146,14 @@ if __name__ == '__main__':
                         default='relu',
                         choices=['relu', 'sigmoid', 'tanh'],
                         help='Activation function for encoding protein embedding with backbone (default: relu)')
-    parser.add_argument('--model-type', 
-                        type=str, 
-                        choices=['unsupervised', 'deepphylo_binary'], 
-                        default='deepphylo', 
-                        help='Type of model to use')
+
 
     args = parser.parse_args()
-    X_train = np.load('data_DeepPhylo/twin/X_train.npy')
-    X_eval = np.load('data_DeepPhylo/twin/X_eval.npy')
-    Y_train = np.load('data_DeepPhylo/twin/Y_train.npy')
-    Y_eval = np.load('data_DeepPhylo/twin/Y_eval.npy')
-    C = np.load('data_DeepPhylo/twin/c.npy')
+    X_train = np.load('data/gender_classification/X_train.npy')
+    X_eval = np.load('data/gender_classification/X_eval.npy')
+    Y_train = np.load('data/gender_classification/Y_train.npy')
+    Y_eval = np.load('data/gender_classification/Y_eval.npy')
+    C = np.load('data/gender_classification/c.npy')
     D = inverse_C(C)
     phy_embedding = reducer(C, 'pca', args.hidden_size, whiten=True)
     train_losses, val_losses, metrics_dict = train(X_train, Y_train, X_eval, Y_eval, phy_embedding)
