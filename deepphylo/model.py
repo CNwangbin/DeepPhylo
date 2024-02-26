@@ -1,7 +1,7 @@
 import math
 import torch.nn as nn
 
-class DeepPhylo_binary(nn.Module):
+class DeepPhylo_classification(nn.Module):
     def __init__(self, hidden_size, embeddings, kernel_size_conv=7, kernel_size_pool=4, dropout_conv=0.2, activation=nn.ReLU()):
         super().__init__()
         self.embedding = nn.Embedding.from_pretrained(embeddings.float(), freeze=True)
@@ -35,7 +35,7 @@ class DeepPhylo_binary(nn.Module):
         x = x_abundance * x_conv
         return self.fc_pred(x)
 
-class DeepPhylo_continuous(nn.Module):
+class DeepPhylo_regression(nn.Module):
     def __init__(self, hidden_size, embeddings, kernel_size_conv=7, kernel_size_pool=4, dropout_conv=0.2, activation=nn.ReLU()):
         super().__init__()
         self.embedding = nn.Embedding.from_pretrained(embeddings.float(), freeze=True)
@@ -72,7 +72,7 @@ class DeepPhylo_continuous(nn.Module):
 
 
 
-class DeepPhy(nn.Module):
+class DeepPhylo_ibd(nn.Module):
     def __init__(self, hidden_size, embeddings, kernel_size_conv=7, kernel_size_pool=4, dropout_conv=0.2, activation=nn.ReLU()):
         super().__init__()
         self.embedding = nn.Embedding.from_pretrained(embeddings.float(), freeze=True)
