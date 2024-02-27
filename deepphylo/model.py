@@ -30,7 +30,6 @@ class DeepPhylo_classification(nn.Module):
         embeddings_tensor = self.fc_phy(embeddings_tensor)
         embeddings_tensor = embeddings_tensor.transpose(1, 2)
         x_conv = self.conv(embeddings_tensor)
-        # x_phy2vec = x_phy2vec.mean(dim=2, keepdim=False)
         x_conv = x_conv.max(dim=2, keepdim=False)[0]
         x = x_abundance * x_conv
         return self.fc_pred(x)
@@ -65,7 +64,6 @@ class DeepPhylo_regression(nn.Module):
         embeddings_tensor = self.fc_phy(embeddings_tensor)
         embeddings_tensor = embeddings_tensor.transpose(1, 2)
         x_conv = self.conv(embeddings_tensor)
-        # x_phy2vec = x_phy2vec.mean(dim=2, keepdim=False)
         x_conv = x_conv.max(dim=2, keepdim=False)[0]
         x = x_abundance * x_conv
         return self.fc_pred(x)
@@ -101,7 +99,6 @@ class DeepPhylo_ibd(nn.Module):
         embeddings_tensor = self.fc_phy(embeddings_tensor)
         embeddings_tensor = embeddings_tensor.transpose(1, 2)
         x_conv = self.conv(embeddings_tensor)
-         # x_phy2vec = x_phy2vec.mean(dim=2, keepdim=False)
         x_conv = x_conv.max(dim=2, keepdim=False)[0]
         x = x_abundance * x_conv
         return self.fc_pred(x)
