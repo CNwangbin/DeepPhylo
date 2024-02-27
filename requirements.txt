@@ -5,11 +5,11 @@ numpy
 pandas
 requests
 setuptools
-sklearn
+scikit-learn
 tokenizers
 torch
 tqdm
 transformers
 argparse
 scipy
-qiime2
+# qiime2
