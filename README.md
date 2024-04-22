@@ -46,7 +46,7 @@ python deepphylo_regression.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 
 
 - to train and test a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
 ```bash
-python deepphylo_ibd_diagnosis.py --epochs 200 -hs 16 -kec 7 -l 1e-4 -bs 32 -kep 2
+python deepphylo_classification.py --epochs 200 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 
 ```
 
 * mystem_rpca.ipynb - Jupyter notebook to run unsupervised method on skin microbiome samples.
