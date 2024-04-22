@@ -184,7 +184,7 @@ if __name__ == '__main__':
     # cuda visible devices
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-    base_path = '/home/wangbin/DeepPhylo/data/ibd_diagnosis/'
+    base_path = 'data/ibd_diagnosis/'
 
     # 创建一个空的字典来存储加载的数组
     X_arrays = {}
@@ -194,7 +194,7 @@ if __name__ == '__main__':
         X_arrays['X_' + str(i)] = np.load(os.path.join(base_path, 'X_' + str(i) + '.npy'))
         Y_arrays['Y_' + str(i)] = np.load(os.path.join(base_path, 'Y_' + str(i) + '.npy'))
 
-    phy_embedding = np.load('/home/wangbin/DeepPhylo/data/ibd_diagnosis/embedding.npy')
+    phy_embedding = np.load('data/ibd_diagnosis/embedding.npy')
     # Generate all combinations of hyperparameters
     hidden_size = args.hidden_size
     kernal_size_conv = args.kernal_size_conv
