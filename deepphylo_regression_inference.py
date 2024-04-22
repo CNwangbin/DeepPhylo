@@ -34,7 +34,7 @@ def test(X_test,Y_test,phy_embedding):
     test_dataset = DeepPhyDataset(phy_embedding, X_test, Y_test)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, collate_fn=test_dataset.custom_collate_fn)
     model = DeepPhylo_regression(hidden_size, test_dataset.embeddings,kernal_size_conv, kernal_size_pool, activation=activation).to(device)
-    model.load_state_dict(torch.load("/home/syl/DeepPhylo/data/age_regression/best_model.pth"))
+    model.load_state_dict(torch.load("data/age_regression/best_model.pth"))
     model.eval()
     test_preds = []
     test_true = []
