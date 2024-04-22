@@ -32,7 +32,7 @@ def test(X_test,Y_test,phy_embedding):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, collate_fn=test_dataset.custom_collate_fn)
     model = DeepPhylo_classification(hidden_size, test_dataset.embeddings, kernel_size_conv, kernel_size_pool, activation=activation).to(device)
     metrics_dict = {'acc': [], 'mcc': [], 'roc_auc': [], 'aupr': [], 'precision':[], 'recall':[],'specificity':[], 'sensitivity':[]}
-    model.load_state_dict(torch.load("/home/syl/DeepPhylo/data/gender_classification/best_model.pth"))
+    model.load_state_dict(torch.load("data/gender_classification/best_model.pth"))
     model.eval()
     test_preds = []
     test_true = []
