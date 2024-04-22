@@ -48,7 +48,7 @@ def test(X_test,Y_test,phy_embedding):
     test_true = np.concatenate(test_true)
     test_preds = np.concatenate(test_preds)
     test_r2 = r2_score(test_true, test_preds)
-    print(f' test_r2: {test_r2:.4f}')
+    # print(f' test_r2: {test_r2:.4f}')
 
     return test_preds,test_r2
 
