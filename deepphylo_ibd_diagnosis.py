@@ -104,8 +104,6 @@ def select_best_epoch(val_losses):
     return best_epoch
 
 def random_shuffle(phy_embedding, X_train, X_eval, portion=0.5):
-    if portion == 0:
-        return phy_embedding, X_train, X_eval
     # 获取otu数量
     otu_num = phy_embedding.shape[0]
 
@@ -113,18 +111,21 @@ def random_shuffle(phy_embedding, X_train, X_eval, portion=0.5):
     indices = np.arange(otu_num)
 
     # 随机选择一部分索引并打乱
-    num_to_shuffle = int(portion * otu_num)
-    shuffle_indices = np.random.choice(indices, size=num_to_shuffle, replace=False)
-    np.random.shuffle(shuffle_indices)
+    if portion == 0:
+        return phy_embedding, X_train, X_eval
+    else:
+        num_to_shuffle = int(portion * otu_num)
+        shuffle_indices = np.random.choice(indices, size=num_to_shuffle, replace=False)
+        np.random.shuffle(shuffle_indices)
 
-    # 用打乱的索引替换原来的索引
-    indices[:num_to_shuffle] = shuffle_indices
+        # 用打乱的索引替换原来的索引
+        indices[:num_to_shuffle] = shuffle_indices
 
-    # 用新的索引数组重新排列phy_embedding和X_train
-    phy_embedding = phy_embedding[indices]
-    X_train = X_train[:, indices]
-    X_eval = X_eval[:, indices]
-    return phy_embedding, X_train, X_eval
+        # 用新的索引数组重新排列phy_embedding和X_train
+        phy_embedding = phy_embedding[indices]
+        X_train = X_train[:, indices]
+        X_eval = X_eval[:, indices]
+        return phy_embedding, X_train, X_eval
 
 if __name__ == '__main__':
     set_seed(1234)
@@ -149,7 +150,7 @@ if __name__ == '__main__':
                         help='Kernal size which applied to convolutional layers')
     parser.add_argument('-kep',
                         '--kernal_size_pool',
-                        default=2,
+                        default=4,
                         type=int,
                         help='pooling size of convolutional layers')
     parser.add_argument('-l',
@@ -159,7 +160,7 @@ if __name__ == '__main__':
                         help='initial learning rate')
     parser.add_argument('-bs',
                         '--batchsize',
-                        default=32,
+                        default=64,
                         type=int,
                         help='Batchsize size when encoding protein embedding with backbone')
     parser.add_argument('-act',
@@ -170,8 +171,13 @@ if __name__ == '__main__':
     parser.add_argument('-d',
                         '--dropout',
                         default=0.5,
-                        type=int,
+                        type=float,
                         help='dropout rate of convolutional layers')
+    parser.add_argument('-p',
+                    '--portion_shuffle',
+                    default=0.0,
+                    type=float,
+                    help='dropout rate of convolutional layers')
     args = parser.parse_args()
     
 
@@ -194,6 +200,7 @@ if __name__ == '__main__':
     kernal_size_conv = args.kernal_size_conv
     kernel_size_pool = args.kernal_size_pool
     dropout_conv = args.dropout
+    portion = args.portion_shuffle
     
     if args.activation == 'relu':
         activation = nn.ReLU()
@@ -215,7 +222,7 @@ if __name__ == '__main__':
         Y_train = np.concatenate([Y_arrays['Y_' + str(j)] for j in range(15) if j != i])
         X_eval = X_arrays['X_' + str(i)]
         Y_eval = Y_arrays['Y_' + str(i)]
-        phy_embedding, X_train, X_eval = random_shuffle(phy_embedding, X_train, X_eval, portion=1)
+        phy_embedding, X_train, X_eval = random_shuffle(phy_embedding, X_train, X_eval, portion=portion)
         print(f'Number of validation samples: {len(Y_eval)}, +: {sum(Y_eval)}, -: {len(Y_eval) - sum(Y_eval)}')
         train_losses, val_losses, val_true_labels, val_pred_labels = train(X_train, Y_train, X_eval, Y_eval, phy_embedding, batch_size=batch_size, lr=lr, hidden_size=hidden_size, kernal_size_conv=kernal_size_conv, kernel_size_pool=kernel_size_pool, dropout_conv=dropout_conv, activation=activation)
 
@@ -229,6 +236,9 @@ if __name__ == '__main__':
     all_preds = np.concatenate(all_preds)
     metric_dict = compute_metrics(all_true, all_preds)
     print(metric_dict)
+    # with open('ibd_diagnosis_result.txt', 'a') as f:
+    #     f.write(f'hidden_size: {hidden_size}, kernal_size_conv: {kernal_size_conv}, kernel_size_pool: {kernel_size_pool}, dropout_conv: {dropout_conv}, activation: {args.activation}, lr: {lr}, batch_size: {batch_size}, portion_shuffle: {args.portion_shuffle}\n')
+    #     f.write(str(metric_dict) + '\n')
 
 
     
