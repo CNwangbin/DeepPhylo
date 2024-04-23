@@ -44,7 +44,7 @@ python deepphylo_classification.py --epochs 500 -hs 80 -kec 3 -l 0.0001 -bs 32 -
 python deepphylo_classification_inference.py -test_X 'data/gender_classification/X_test.npy' -test_Y 'data/gender_classification/Y_test.npy'  -hs 80 -kec 3 -l 0.0001 -bs 32 -kep 7 -act relu 
 ```
 
-- to train and test a model using DeepPhylo in age prediction run sh: 
+- to train and evaluate a model using DeepPhylo in age prediction run sh: 
 ```bash
 python deepphylo_regression.py --epochs 500 -hs 40 -kec 7 -l 0.0002 -bs 8 -kep 7 -act tanh
 ```
@@ -54,9 +54,14 @@ python deepphylo_regression.py --epochs 500 -hs 40 -kec 7 -l 0.0002 -bs 8 -kep 7
 python deepphylo_regression_inference.py -test_X '/home/syl/DeepPhylo/data/age_regression/X_test.npy' -test_Y 'data/age_regression/Y_test.npy' -hs 40 -kec 7 -l 0.0002 -bs 8 -kep 7 -act tanh
 ```
 
-- to train and test a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
+- to train and evaluate a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
 ```bash
-python deepphylo_classification.py --epochs 500 -hs 64 -kec 7 -l 1e-4 -bs 64 -kep 4 
+python deepphylo_ibd_diagnosis.py --epochs 200 -hs 16 -kec 7 -l 1e-4 -bs 32 -kep 2
+```
+
+- to test a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
+```bash
+python deepphylo_ibd_diagnosis_inference.py  -hs 16 -kec 7 -l 1e-4 -bs 64 -kep 2 -d 0.2 -p 0.0 -act 'sigmoid'
 ```
 
 * mystem_rpca.ipynb - Jupyter notebook to run unsupervised method on skin microbiome samples.
