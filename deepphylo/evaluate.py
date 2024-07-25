@@ -42,3 +42,26 @@ def compute_metrics(y_true, y_pred):
     aupr = auc(recall, precision)
     metric_dict = {'acc': acc, 'mcc': mcc, 'roc_auc': roc_auc, 'aupr': aupr, 'precision':precision,'recall':recall, 'specificity':specificity, 'sensitivity':sensitivity}
     return metric_dict
+
+def compute_metrics_ibd(y_true, y_pred):
+    if not isinstance(y_true, np.ndarray):
+        y_true = np.array(y_true)
+    if not isinstance(y_pred, np.ndarray):
+        y_pred = np.array(y_pred)
+    y_pred_hard = np.where(y_pred > 0.5, 1, 0)
+    acc = accuracy_score(y_true, y_pred_hard)
+    mcc = matthews_corrcoef(y_true, y_pred_hard)
+    fpr, tpr, t = roc_curve(y_true, y_pred)
+    roc_auc = auc(fpr, tpr)
+    # 从FPR和TPR计算特异度和敏感度
+    specificity = 1 - fpr
+    sensitivity = tpr
+    precision, recall, thresholds = precision_recall_curve(y_true, y_pred)
+    aupr = auc(recall, precision)
+    # 选取thresholds为0.5时的precision和recall，计算F1
+    idx = np.argmin(np.abs(thresholds - 0.5))
+    precision = precision[idx]
+    recall = recall[idx]
+    f1 = 2 * precision * recall / (precision + recall)
+    metric_dict = {'acc': acc, 'mcc': mcc, 'roc_auc': roc_auc, 'aupr': aupr, 'f1':f1}
+    return metric_dict
