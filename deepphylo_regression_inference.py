@@ -18,8 +18,6 @@ def test(X_test,Y_test,phy_embedding):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     hidden_size = args.hidden_size
     kernal_size_conv = args.kernal_size_conv
-    num_layers = 1
-    criterion = nn.MSELoss()
     batch_size = args.batchsize
     kernal_size_pool = args.kernal_size_pool
     if args.activation == 'relu':

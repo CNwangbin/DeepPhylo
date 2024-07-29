@@ -18,7 +18,7 @@ def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
     hidden_size = args.hidden_size
     kernal_size_conv = args.kernal_size_conv
     num_layers = 1
-    criterion = nn.MSELoss()
+    criterion = nn.SmoothL1Loss(beta=0.8)
     batch_size = args.batchsize
     kernal_size_pool = args.kernal_size_pool
     if args.activation == 'relu':
