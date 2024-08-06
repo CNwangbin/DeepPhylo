@@ -12,7 +12,6 @@ from deepphylo.evaluate import compute_metrics_ibd as compute_metrics
 from deepphylo.model import DeepPhylo_ibd as DeepPhylo
 from deepphylo.pre_dataset import DeepPhyDataset
 
-
 def plot_training(train_losses, val_losses):
     # plot the training and validation loss
     plt.figure()
@@ -103,29 +102,41 @@ def select_best_epoch(val_losses):
     best_epoch = np.argmin(val_losses)
     return best_epoch
 
-def random_shuffle(phy_embedding, X_train, X_eval, portion=0.5):
-    # 获取otu数量
-    otu_num = phy_embedding.shape[0]
-
-    # 创建索引数组
-    indices = np.arange(otu_num)
-
-    # 随机选择一部分索引并打乱
-    if portion == 0:
-        return phy_embedding, X_train, X_eval
-    else:
-        num_to_shuffle = int(portion * otu_num)
-        shuffle_indices = np.random.choice(indices, size=num_to_shuffle, replace=False)
-        np.random.shuffle(shuffle_indices)
-
-        # 用打乱的索引替换原来的索引
-        indices[:num_to_shuffle] = shuffle_indices
-
-        # 用新的索引数组重新排列phy_embedding和X_train
-        phy_embedding = phy_embedding[indices]
-        X_train = X_train[:, indices]
-        X_eval = X_eval[:, indices]
-        return phy_embedding, X_train, X_eval
+def shuffle_feature_embeddings(embedding_matrix, proportion=0.0):
+    """
+    Shuffle a given proportion of feature embeddings in the embedding matrix.
+    
+    Args:
+    embedding_matrix (np.ndarray): The original feature embedding matrix of shape (num_features, embedding_dim).
+    proportion (float): The proportion of features to shuffle, must be between 0 and 1.
+    
+    Returns:
+    np.ndarray: The embedding matrix with a proportion of features shuffled.
+    """
+    # Validate input
+    assert 0 <= proportion <= 1, "Proportion must be between 0 and 1"
+    
+    if proportion == 0:
+        return embedding_matrix
+    
+    num_features, _ = embedding_matrix.shape
+    
+    # Step 1: Randomly select a specific proportion of feature indices
+    num_features_to_shuffle = int(num_features * proportion)
+    print(f'Number of features to shuffle: {num_features_to_shuffle}')
+    candidate_indices = np.random.choice(num_features, num_features_to_shuffle, replace=False)
+    
+    # Step 2: Shuffle the candidate indices
+    shuffled_indices = np.random.permutation(candidate_indices)
+    
+    # Step 3: Create a new index array where the selected indices are shuffled
+    full_indices = np.arange(num_features)
+    full_indices[candidate_indices] = shuffled_indices
+    
+    # Step 4: Reorder the embedding matrix based on the new index array
+    shuffled_embedding_matrix = embedding_matrix[full_indices]
+    
+    return shuffled_embedding_matrix
 
 if __name__ == '__main__':
     set_seed(1234)
@@ -195,13 +206,15 @@ if __name__ == '__main__':
         Y_arrays['Y_' + str(i)] = np.load(os.path.join(base_path, 'Y_' + str(i) + '.npy'))
 
     phy_embedding = np.load('data/ibd_diagnosis/embedding.npy')
+    
     # Generate all combinations of hyperparameters
     hidden_size = args.hidden_size
     kernal_size_conv = args.kernal_size_conv
     kernel_size_pool = args.kernal_size_pool
     dropout_conv = args.dropout
     portion = args.portion_shuffle
-    
+    phy_embedding = shuffle_feature_embeddings(phy_embedding, proportion=portion)
+    # 定义激活函数
     if args.activation == 'relu':
         activation = nn.ReLU()
     elif args.activation == 'sigmoid':
@@ -222,7 +235,6 @@ if __name__ == '__main__':
         Y_train = np.concatenate([Y_arrays['Y_' + str(j)] for j in range(15) if j != i])
         X_eval = X_arrays['X_' + str(i)]
         Y_eval = Y_arrays['Y_' + str(i)]
-        phy_embedding, X_train, X_eval = random_shuffle(phy_embedding, X_train, X_eval, portion=portion)
         print(f'Number of validation samples: {len(Y_eval)}, +: {sum(Y_eval)}, -: {len(Y_eval) - sum(Y_eval)}')
         train_losses, val_losses, val_true_labels, val_pred_labels = train(X_train, Y_train, X_eval, Y_eval, phy_embedding, batch_size=batch_size, lr=lr, hidden_size=hidden_size, kernal_size_conv=kernal_size_conv, kernel_size_pool=kernel_size_pool, dropout_conv=dropout_conv, activation=activation)
 
