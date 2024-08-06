@@ -56,7 +56,7 @@ python deepphylo_regression_inference.py -test_X '/home/syl/DeepPhylo/data/age_r
 
 - to train and evaluate a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
 ```bash
-python deepphylo_ibd_diagnosis.py --epochs 200 -hs 16 -kec 7 -l 1e-4 -bs 32 -kep 2
+python python deepphylo_ibd_diagnosis.py -hs 16 -kec 7 -l 1e-4 -bs 64 -kep 2 -act sigmoid -d 0.2
 ```
 
 - to test a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
