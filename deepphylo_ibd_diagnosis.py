@@ -138,6 +138,31 @@ def shuffle_feature_embeddings(embedding_matrix, proportion=0.0):
     
     return shuffled_embedding_matrix
 
+def reset_random_feature_embeddings(feature_embeddings, proportion=0.2, set_zero=True):
+    if proportion == 0:
+        return feature_embeddings
+    num_features, embedding_dim = feature_embeddings.shape
+    
+    # 计算要重置的特征数量
+    num_reset_features = int(num_features * proportion)
+    
+    # 随机选择要重置的特征索引
+    reset_indices = np.random.choice(num_features, num_reset_features, replace=False)
+    
+    # 创建一个副本以进行扰乱
+    modified_feature_embeddings = feature_embeddings.copy()
+    
+    if not set_zero:
+        # 生成随机embedding并重置选定的特征
+        random_embeddings = np.random.rand(num_reset_features, embedding_dim)
+        modified_feature_embeddings[reset_indices] = random_embeddings
+    else:
+        # 将选定的特征重置为零
+        modified_feature_embeddings[reset_indices] = 0
+    
+    return modified_feature_embeddings
+
+
 if __name__ == '__main__':
     set_seed(1234)
 
@@ -193,7 +218,7 @@ if __name__ == '__main__':
     
 
     # cuda visible devices
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
     base_path = 'data/ibd_diagnosis/'
 
@@ -213,7 +238,7 @@ if __name__ == '__main__':
     kernel_size_pool = args.kernal_size_pool
     dropout_conv = args.dropout
     portion = args.portion_shuffle
-    phy_embedding = shuffle_feature_embeddings(phy_embedding, proportion=portion)
+    phy_embedding = reset_random_feature_embeddings(phy_embedding, proportion=portion, set_zero=True)
     # 定义激活函数
     if args.activation == 'relu':
         activation = nn.ReLU()
