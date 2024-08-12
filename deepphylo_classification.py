@@ -103,8 +103,7 @@ def train(X_train, Y_train, X_eval, Y_eval, phy_embedding):
 
 if __name__ == '__main__':
     """
-        # python3 src/MDeep.py --train --data_dir data/Malawiantwin_pairs --model_dir model --outcome_type binary --batch_size 32 
-        # --max_epoch 500 --learning_rate 1e-4 --dropout_rate 0.5 --window_size 128 4 --kernel_size 32 32 --strides 64 2
+    #python deepphylo_classification.py --epochs 500 -hs 80 -kec 3 -l 0.0001 -bs 32 -kep 7 -act relu       
 
     """
     set_seed(1234)
