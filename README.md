@@ -149,7 +149,7 @@ python deepphylo_classification_multi_label_inference.py -hs 32 -kec 5 -l 5e-2 -
 
 ## Example
 
-In the example, we demonstrate the entire process of model training and testing for regression tasks. Here, our input is a normalized npy file that has already been processed, and the labels are also processed values
+In this example, we demonstrate the entire process of model training and testing for regression tasks. Here, our input is a normalized npy file that has already been processed, and the labels are also processed values
 
 
 ### Train the model
