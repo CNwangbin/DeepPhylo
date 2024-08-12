@@ -94,10 +94,10 @@ python deepphylo/data_convert.py --input_file="/home/syl/DeepPhylo/data/skin_clu
 | `-test_Y` |data/gender_classification/Y_test.npy' | The label of the input data,it should be the type of `npy`.|
 
 
-In our model, the inputs are NPY format inputs and labels, and the output will change according to your task selection. If you choose the binary classification task, evaluation metrics such as acc, aupr, roc_auc will be output between the predicted and true values. If you choose the regression task, R2_Score will be returned.
+In our model, the inputs are `npy` format inputs and labels, and the output will change according to your task selection. If you choose the binary classification task, evaluation metrics such as acc, aupr, roc_auc will be output between the predicted and true values. If you choose the regression task, R2_Score will be returned.
 
 
-In terms of parameter selection, when you need to train a model on your own, I think hidden size and lr are important choices. You can focus on fine-tuning these two parameters. In addition, kep and kec represent the size of the convolutional layer and pooling layer in the model, respectively. This needs to be adjusted according to the actual input, but one thing is that odd numbers are better choices
+In terms of parameter selection, when you need to train a model on your own, I think `hidden size` and `lr` are important choices. You can focus on fine-tuning these two parameters. In addition, `kep` and `kec` represent the size of the convolutional layer and pooling layer in the model, respectively. This needs to be adjusted according to the actual input, but one thing is that odd numbers are better choices
 
 ## Running
 * Download all the data files and place them into data folder
