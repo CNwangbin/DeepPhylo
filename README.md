@@ -74,7 +74,7 @@ To perform the necessary data transformation, we require the original biom abund
 
 ```
 
-python deepphylo/data_convert.py --input_file="/home/syl/DeepPhylo/data/skin_clustering/urbmerged.biom" --outfile=/home/syl/DeepPhylo/data/output_data
+python deepphylo/data_convert.py --input_file="/home/syl/DeepPhylo/data/skin_clustering/urbmerged.biom" --output_dir=/home/syl/DeepPhylo/data/output_data
 
 ```
 ![](readme_figure/data_convert.png)
