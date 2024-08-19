@@ -4,7 +4,7 @@
 
 ![](readme_figure/model.png)
 
-Compared to the existing methods, DeepPhylo demonstrated superiority in informing biologically relevant insights across four real-world microbiome use cases, including clustering of skin microbiomes, prediction of host chronological age and gender, and inflammatory bowel disease (IBD) diagnosis across 15 datasets.
+Compared to the existing methods, DeepPhylo demonstrated superiority in informing biologically relevant insights across five real-world microbiome use cases, including clustering of skin microbiomes, prediction of host chronological age and gender, diagnosis of inflammatory bowel disease (IBD) across 15 studies, and multilabel disease classification.
 
 This repository contains script which were used to train the DeepPhylo model with the scripts for evaluating the model's performance.
 
@@ -66,7 +66,7 @@ sample_name,ac_sampled_room,accult_score,analysis_name,animals_in_house
 
 | File Name      | Description                                                      | Data Type          | Usage in Analysis                          |
 |----------------|------------------------------------------------------------------|--------------------|--------------------------------------------|
-| `/home/syl/DeepPhylo/data/age_regression/best_model.pth`    | Stores the best model parameters learned during training. This file contains weights, biases, and other parameters that define the state of a deep learning model at a particular checkpoint. | Model Parameters   | Used for loading the trained model to make predictions, continue training, or perform fine-tuning on new data. |
+| `/home/syl/DeepPhylo/data/age_regression/best_model.pth`    | Stores the best model parameters learned during training. This file contains weights, biases, and other parameters that define the state of a deep learning model at a particular checkpoint. | Trained model Weights   | Used for loading the trained model to make predictions, continue training, or perform fine-tuning on new data. |
 
 
 ### Data convert
