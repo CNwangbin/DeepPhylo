@@ -88,7 +88,6 @@ python deepphylo/data_convert.py --input_file="/home/syl/DeepPhylo/data/skin_clu
 | `-bs`     | 64     | Batch size: Number of training examples utilized in one iteration. A larger batch size generally leads to more stable gradient updates. |
 | `-kep`    | 2      | Kernel pool size:  The size of the window to take a max over. This parameter defines the length of the 1D pooling window in the `nn.MaxPool1d` layer |
 | `-d`      | 0.2    | Dropout rate: Fraction of the input units to drop during training, used as a regularization method to prevent overfitting. |
-| `-p`      | 0.0    | Dropout probability: Probability of applying dropout at each layer, controlling the regularization strength. |
 | `-act`    | 'sigmoid' | Activation function: Type of activation function applied to the network's output, with 'sigmoid' used for binary classification problems. |
 | `-test_X` |data/gender_classification/X_test.npy' | The input data of the model,it should be the type of `npy`.|
 | `-test_Y` |data/gender_classification/Y_test.npy' | The label of the input data,it should be the type of `npy`.|
