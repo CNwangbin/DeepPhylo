@@ -127,7 +127,7 @@ python deepphylo_regression_inference.py -test_X '/home/syl/DeepPhylo/data/age_r
 
 - to train and evaluate a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
 ```bash
-python python deepphylo_ibd_diagnosis.py -hs 16 -kec 7 -l 1e-4 -bs 64 -kep 2 -act sigmoid -d 0.2
+python deepphylo_ibd_diagnosis.py -hs 16 -kec 7 -l 1e-4 -bs 64 -kep 2 -act sigmoid -d 0.2
 ```
 
 - to test a model using DeepPhylo in IBD microbiome-based diagnosis run sh: 
@@ -153,7 +153,7 @@ In this example, we demonstrate the entire process of model training and testing
 
 ### Train the model
 
-You can perform this analysis via microDELTA.py and set the parameters as below:
+You can perform this model training via deepphylo_*.py and set the parameters as below:
 ```
 python deepphylo_regression.py  \
             --epochs 500 \
@@ -168,7 +168,7 @@ During the model training process, we train on the data from both the training a
 
 ![](readme_figure/example_train.png)
 ### Test the model
-
+You can perform this model inference via deepphylo_*_inference.py and set the parameters as below:
 ```
 python deepphylo_regression_inference.py 
             -test_X 'data/age_regression/X_test.npy'
