@@ -1,4 +1,4 @@
-# DeepPhylo: A phylogeny-aware machine learning approach to enhance predictive accuracy in human microbiome data analysis
+# DeepPhylo: Phylogeny‐Aware Microbial Embeddings Enhanced Predictive Accuracy in Human Microbiome Data Analysis
 
  DeepPhylo, a method that employs phylogeny-aware amplicon embeddings to integrate abundance and phylogenetic information, thereby improving both the unsupervised discriminatory power and supervised predictive accuracy of microbiome data analysis. 
 
@@ -186,7 +186,18 @@ During the model testing process, we only need to input the input and label of t
 ## Citation
 
 If you use DeepPhylo for your research, or incorporate our learning algorithms in your work, please cite:
-
+```
+@article{wang2024deepphylo,
+  title={DeepPhylo: Phylogeny-Aware Microbial Embeddings Enhanced Predictive Accuracy in Human Microbiome Data Analysis},
+  author={Wang, Bin and Shen, Yulong and Fang, Jingyan and Su, Xiaoquan and Xu, Zhenjiang Zech},
+  journal={Advanced Science},
+  volume={11},
+  number={45},
+  pages={2404277},
+  year={2024},
+  publisher={Wiley Online Library}
+}
+```
 
 
 ## New version specifications
